@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kvadratdan qoch!</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #111;
+    }
+    #game {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      background: #0cbbec;
+    }
+    #player {
+      width: 100px;
+      height: 50px;
+      background-image: url("https://static.thenounproject.com/png/8616-200.png");
+      position: absolute;
+      top: 50%;
+      left: 50%;
+        background-size: contain;
+      background-repeat: no-repeat;
+      transform: translate(-50%, -50%);
+    }
+    .enemy {
+      width: 100px;
+      height: 50px;
+      background-image: url("https://cdn-icons-png.flaticon.com/512/9357/9357543.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      position: absolute;
+    }
+    #score {
+      color: white;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-family: sans-serif;
+      font-size: 20px;
+      background-color: rgba(0,0,0,0.5);
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<div id="game">
+  <div id="player"></div>
+  <div id="score">0 sekund</div>
+</div>
+
+<script>
+  const game = document.getElementById("game");
+  const player = document.getElementById("player");
+  const scoreText = document.getElementById("score");
+
+  let enemies = [];
+  let score = 0;
+  let gameActive = true;
+  let highScore = localStorage.getItem('highScore') || 0;
+
+  function createEnemy() {
+    const enemy = document.createElement("div");
+    enemy.classList.add("enemy");
+    enemy.style.top = Math.random() * (window.innerHeight - 50) + "px";
+    enemy.style.left = -100 + "px";
+    game.appendChild(enemy);
+    enemies.push({ el: enemy, speed: Math.random() * 3 + 2 });
+  }
+
+  function moveEnemies() {
+    enemies.forEach((enemy, index) => {
+      if (!enemy.el.parentNode) {
+        enemies.splice(index, 1);
+        return;
+      }
+      
+      enemy.el.style.left = enemy.el.offsetLeft + enemy.speed + "px";
+      
+      if (enemy.el.offsetLeft > window.innerWidth) {
+        game.removeChild(enemy.el);
+        enemies.splice(index, 1);
+      }
+
+      if (gameActive && isCollision(enemy.el, player)) {
+        gameActive = false;
+        if (score > highScore) {
+          highScore = score;
+          localStorage.setItem('highScore', highScore);
+        }
+        player.style.backgroundColor = "red";
+        setTimeout(() => {
+          alert("O'yin tugadi! " + score + " sekund yashading!\nRekord: " + highScore + " sekund");
+          location.reload();
+        }, 100);
+      }
+    });
+  }
+
+  function isCollision(a, b) {
+    const aRect = a.getBoundingClientRect();
+    const bRect = b.getBoundingClientRect();
+
+    return !(
+      aRect.top > bRect.bottom ||
+      aRect.bottom < bRect.top ||
+      aRect.left > bRect.right ||
+      aRect.right < bRect.left
+    );
+  }
+
+  document.addEventListener("mousemove", (e) => {
+    if (gameActive) {
+      player.style.left = e.clientX - 15 + "px";
+      player.style.top = e.clientY - 15 + "px";
+    }
+  });
+
+  setInterval(() => {
+    if (gameActive) {
+      createEnemy();
+    }
+  }, 500);
+
+  setInterval(() => {
+    if (gameActive) {
+      score++;
+      scoreText.textContent = score + " sekund | Rekord: " + highScore;
+    }
+  }, 1000);
+
+  function gameLoop() {
+    moveEnemies();
+    requestAnimationFrame(gameLoop);
+  }
+
+  gameLoop();
+</script>
+</body>
+</html>
