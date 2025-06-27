@@ -950,7 +950,7 @@ button {
   font-size: 20px;
 }
 #sobmit{
-  height: 700px;
+  height: 260px;
   background-color: black;
   width: 100%;
 }
@@ -967,4 +967,10 @@ button {
 }
 #sobmit textarea{
      width: 500px;
+}
+.mubssrite{
+  margin-left: 50%;
+  width: 250px;
+  height: 60px;
+  font-size: 40px;
 }

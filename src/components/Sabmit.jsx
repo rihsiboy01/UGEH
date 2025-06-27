@@ -9,7 +9,7 @@ function Sabmit() {
             <input type="number" placeholder='your birthday'/>
             <textarea name="" id="" placeholder='enter your query'></textarea>
         </div>
-        <button>submit</button>
+        <button className='mubssrite'>submit</button>
         </div>
         </>
     )
