@@ -4,6 +4,7 @@ import Sabmit from './Sabmit'
 function Footer() {
     return (
         <>
+        <Sabmit/>
         <div className='contakts'>
                <h1>Contact</h1>
          <div>
@@ -31,7 +32,6 @@ function Footer() {
          </div>
          </div>
         </div>
-         <Sabmit/>
         </>
     )
 }

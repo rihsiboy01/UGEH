@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -12,7 +12,7 @@ function Header() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (username === 'a' && Number(password) === 1 && Number(code) === 2) {
+        if (localStorage.getItem("name") === username && password === localStorage.getItem("pasword") && code === localStorage.getItem("id")) {
             navigate('/admins');
         } else {
             alert('Big error: Invalid credentials');
@@ -96,11 +96,13 @@ function Header() {
             <header>
                 <img src="logo.png" alt="Logo" className="logo" />
                 <div className="nav">
+                    <Link to={"/"}>home</Link> 
                     <button className="btn1" onClick={() => setModalOpen(true)}>Window Admins</button>
-                    <a href="#divr">About</a>
+                    <a href="#divr">About</a> 
                     <button className="btn2" onClick={() => setShowSearch(true)}>
                         <img src="1.png" alt="Search" /> Search Video
                     </button>
+                    {/* <Link to={"/game"}>game</Link> */}
                     <button className="box__link button-animation">
                         <img src="2.png" alt="Login" /> Login
                         <span></span><span></span><span></span><span></span>

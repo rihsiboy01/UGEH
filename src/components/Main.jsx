@@ -1,14 +1,18 @@
 import React from 'react'
 import Sviper from './Sviper'
-import Icons from './Icons'
+import Footer from './Footer'
 import AutoSwiper from './AutoSwiper'
 import Malumot from './Malumot'
 import About from './About'
+import Header from './Header'
+
 
 function Main() {
+
+
     return (
         <>
-         <Icons/>
+        <Header/>
           <div className="scrolling-text-container">
               <div className="scrolling-text">
             <h1>WEB CODE</h1>
@@ -51,6 +55,7 @@ function Main() {
                </div>
             </div>
          </div>
+         <Footer/>
         </>
     )
 }
